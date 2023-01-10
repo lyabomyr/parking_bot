@@ -1,32 +1,21 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
+apiVersion : apps/v1
+kind: Deployment
 metadata:
-  name: base-chart
+  name: parking-deployment
+  labels:
+    app : parking-deployment
 spec:
-  releaseName: parking-tele-bot
-  chart:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: parking-app
+  template:
+    metadata:
+      labels:
+        project: parking-app
     spec:
-      version: 0.3.1
-    fullnameOverride: parking-tele-bot
-    name: parking-tele-bot
-    image:
-      repository: parking-tele-bot
-      tag: latest 
-    extraArgs:
-    - "/parking_bot/parking_tele_bot.py "
-    resources:
-      limits:
-        cpu: 512m
-        memory: 512Gi
-      requests:
-        cpu: 512m
-        memory: 512Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: application
-              operator: In
-              values:
-              - mix
+      containers:
+        - name : api-container
+          image: lyabomyr/parking-tele-bot:latest
+          command: ["python3"]
+          args: ["parking_bot/parking_tele_bot.py"]
