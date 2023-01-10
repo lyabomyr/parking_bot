@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: parking-tele-bot
+  labels:
+    app: cronjob-parking-tele-bot
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  schedule: "30 6 * * *"
+  startingDeadlineSeconds: 60
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 24000
+      backoffLimit: 3
+      completions: 1
+      template:
+        metadata:
+          annotations:
+            app: parking-tele-bot
+        spec:
+          containers:
+          - name: poirot-test
+            image: lyabomyr/parking-tele-bot:latest
+            imagePullPolicy: IfNotPresent
+            args:
+            - cron.py
+            command:
+            - python
+          automountServiceAccountToken: false
+          restartPolicy: Never
