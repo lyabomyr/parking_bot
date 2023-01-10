@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "booking-parking-place",
+  "private_key_id": "918d6fcf7e756fadf585c143f1d1121001c3530e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQC0aiwpWcI5md4I\nBQP/sWlo4LIoILqZz2JvPg1cEK9r3rYas7R/AqfUK5sCtxwo8UI20Fy4xibhsxut\nPX/o7kabak7gsczmf6AFpzHzwJGM8UijRd5ZzFdn+aFZBHKk+kBXOgO8KnfndHyx\nP4VQ1FQNiXbltQ7lPvYbjKzkkTjOM7CINbxsnsAcMwR8Jgm5yPKNb/szOqVTMaed\nX4MHd81z6Z0UTe02oLY9C+l/7GUyBH6MjSzjIhwyuL9DCrbEge3/I815lRVRmNp3\nArgS7hhhO0Kv2q1nqveoMhA8K7A/VFqAWOMHAAD7scDnJu7w7zVFgfDKaymt62Dg\nHBe9VPbDAgMBAAECggEAGzJsMNmamWNUIMJczXVZrhk9UiZI6vnj3WAt1GShhTHg\nIttXSNRGJ4phRkIDSTrBYBD+AU7BusFs2StNtngBBdm7RU0YVeEEZwXC1nt/lY8k\nA5T7RW8z9/UeORSeEbe17lBNEtcWFzqst22bc8lmWFoSJeOq+K0KnbGRuK0Zsp+/\ndoYT9WdHmW+CXLVkdDLTHtKv3I9UqTbtpYXIMlW9+uiCRI+K+hRbuL6OisntAZIg\nQxnVrriE/xtHs3C5LalbnzfsBsU6wkffNdlwHCobb6OwvsRl57twK2U4pcNrOzoz\nRKMdq57V8bkV8VPA/daRqATG374+8oatC6TlLagOdQKBgQD+HSXmelWGpETizVw1\nVk9+avo89zHC2tdyxr+iaWO64OraHsy1fXM8Gba1i5mKM1r61cf5UdkDVX0GmhXO\nGKn6KfrxFUkv15gNPJrhjPxIuOsxLkEdR9r0szLuk5hnDx4TtFlys9iN3qYOZqH0\nhRBm+XDCMRtlwNaC1y6aLDkthQKBgQC1wPxc9nBTc+/Y1nq3IZx6jpjCO0c8mszl\nyAmr4g+OP9sj/6DeVf1m7zQAfyY6F8E3MHBRi+qdjrmYVCkruOBhKtmqr+bZ0Ng5\nLD2gw/+vP3FRGJLmKZk1rz5h1J/afMjSx21jr70GwoiQZ13UWpknZOSNDGkg5GXQ\nuHwTxAvBpwJ/IMGhIRSj8bc7KgFO4ZE+rg0cNL+oqnWLUEBOc6EiOfTEUVmnCb4i\nHJ0z8DMOl8IG+E6WeI0UbFmYxEEYjnifcJ/4uRsFVCV2dD5buLdzzewIZU6RFjUt\nBF4VMqvT+XT5a5DT9vU39RG+Vhzkw6BjfOKqpl2uKm+xNyyF1VneBQKBgHAT0ksN\nGJUNkCB5mfClxFV6604Sucnwd1tWsEgSvZ7tV5fqQWv5QKqh5MJNpef60AXVU92l\nVwbThTUe6MhyV8LzZogvsj4s37jZxCMH2fpaN+lXKvbNPhHxv5kaQXy8qCX6HkVz\nkC/D8+yAIUcamwjE2X704TsMPJCpwrF5mfpPAoGBAN9v/UTG8z1Z5cvck4s2/WPB\neEtS5oJjao4tPCBivEkOsyHjTMkJZHjZsG80nwYSn0mtwqho/T9lQI8NvUTC6uSt\nxeWfiEuie0rh+kNXrmrgkAAOvcd+Wd072gX10tK9NhdDRTDrQKky/esjgrwuqL6l\nGqjNp6NYPprzZbBJvrKY\n-----END PRIVATE KEY-----\n",
+  "client_email": "service-account@booking-parking-place.iam.gserviceaccount.com",
+  "client_id": "118292628201943721419",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/service-account%40booking-parking-place.iam.gserviceaccount.com"
+}
