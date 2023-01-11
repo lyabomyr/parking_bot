@@ -11,5 +11,9 @@ createcluster:
 	kubectl create namespace parkingbot
 kubeapply:
 	kubectl apply -f cron.yaml
-	kubectl apply -f  parking_bot.yaml 
+	kubectl apply -f parking_bot.yaml 
+kubestop:
+	kubectl delete -f cron.yaml
+	kubectl delete -f  parking_bot.yaml 
+
 

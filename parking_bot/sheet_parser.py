@@ -2,38 +2,44 @@ from config import Config
 from parking_bot.google_sheet import GoogleSheetClient
 
 
-def get_list_with_all_places():
-    all_places = GoogleSheetClient().get_sheet(Config.sheet_key,Config.avail_places_sheet_id)['parking_places'].values.tolist()
-    return all_places
+def get_list_with_all_parking_lots():
+    all_parking_lots = GoogleSheetClient().get_sheet(Config.sheet_key,Config.avail_parking_lots_sheet_id)['all_parking_places'].values.tolist()
+    return all_parking_lots
 
-def get_free_places():
+def get_free_parking_lots():
     busy_df = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)
-    busy_df = busy_df['booking_place']
+    busy_df = busy_df['parking_lots']
     if busy_df.empty:
         busy_df=[]
     else:
         busy_df = busy_df.values.tolist()
-    all_df =  get_list_with_all_places()
-    free_places=[]
+    all_df =  get_list_with_all_parking_lots()
+    free_parking_lots=[]
     for i in all_df:
         if i not in busy_df:
-            free_places.append(i)
-    return free_places
+            free_parking_lots.append(i)
+    return free_parking_lots
 
-def get_busy_places_list():
-    resp = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)['booking_place'].values.tolist()
+def get_busy_parking_lots_list():
+    resp = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)['parking_lots'].values.tolist()
     return resp
 
-def get_busy_places():
-    free_places =  get_free_places()
+def get_busy_parking_lots():
+    print("***"*20)
+    free_parking_lots =  get_free_parking_lots()
     resp = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)
+    print("***"*20)
     message=''
     for index, row in resp.iterrows():
-        message+= '*USER:* {}; *CAR:* {}; *RESERVE:* {}|\n'.format(row['user_name'], row['car_number'], row['booking_place'])
-    if free_places:
-        message+=f'Free places: {free_places}'
+        print("***"*20)
+
+        message+= '*USER:* {}; *SURNAME:* {}; *RESERVE:* {};  *RESERVATION TIME:* {}|\n'.format(row['user_name'], row['surname'], row['parking_lots'], row["reservation_time"])
+        print(message)
+
+    if free_parking_lots:
+        message+=f'\nFree parking lots: {free_parking_lots}'
     else:
-        message+='There are no free places'
+        message+='There are no free parking lots'
     return message
 
 

@@ -2,8 +2,7 @@ import gspread
 from config import Config
 import pandas as pd
 from gspread_dataframe import set_with_dataframe
-import datetime
-import os
+
 
 
 
@@ -34,16 +33,16 @@ class GoogleSheetClient():
         print('----- added', *row)
 
     def create_migration(self,  sheet_key, sheet_id):
-        data = {"user_name":[], "car_number":[], "booking_place":[]}
+        data = {"user_name":[], "surname":[], "parking_lots":[], "reservation_time":[]}
         df = pd.DataFrame(data)
         self.set_sheet(sheet_key, sheet_id, df)
 
-    def remove_row_from_sheet(self, sheet_key, sheet_id, place):
+    def remove_row_from_sheet(self, sheet_key, sheet_id, username):
         df = self.get_sheet(sheet_key, sheet_id)
-        df = df[df.user_name != place]
+        df = df[df.user_name != username]
         self.clear_sheet(sheet_key, sheet_id)
         self.create_migration(sheet_key, sheet_id)
-        print(f'Removed row where booking_place != {place}',df)
+        print(f'Removed row where parking_lots != {username}',df)
         self.set_sheet(sheet_key, sheet_id, df)
 
 

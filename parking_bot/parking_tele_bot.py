@@ -1,15 +1,19 @@
 import os
 import telebot
 from telebot import types
-from sheet_parser import get_busy_places, get_free_places, get_list_with_all_places, get_busy_places_list
+from sheet_parser import get_busy_parking_lots, get_free_parking_lots, get_list_with_all_parking_lots, get_busy_parking_lots_list
 from parking_bot.google_sheet import GoogleSheetClient
 from config import Config
+from datetime import timedelta
+from datetime import datetime
+
+
 user_dict = {}
 
 class User:
     def __init__(self, name):
         self.name = name
-        self.car_num = None
+        self.surname = None
         self.parking_number = None
     
 
@@ -20,9 +24,9 @@ bot.delete_my_commands(scope=None, language_code=None)
 
 bot.set_my_commands(
     commands=[
-        telebot.types.BotCommand("reserve", "reserve a parking space"),
-        telebot.types.BotCommand("list_reserved_spaces", "List of reserved parking spaces"),
-        telebot.types.BotCommand("remove_reserve", "remove reserve")
+        telebot.types.BotCommand(Config.commands[0], "Book a parking lot"),
+        telebot.types.BotCommand(Config.commands[1], "List of reserved parking lots"),
+        telebot.types.BotCommand(Config.commands[2], "Delete reserved parking lot")
     ],
 )
 cmd = bot.get_my_commands(scope=None, language_code=None)
@@ -32,79 +36,87 @@ def make_some(message: telebot.types.ChatJoinRequest):
     bot.send_message(message.chat.id, 'I accepted a new user!')
     bot.approve_chat_join_request(message.chat.id, message.from_user.id)
 
-@bot.message_handler(commands='remove_reserve')
+
+
+#remove_reserve
+@bot.message_handler(commands= Config.commands[2])
 def remove_reserve(message):
     user = f'@{message.chat.username}'
     df = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)
     try:
         if f'@{message.chat.username}' in df['user_name'].values.tolist():
             GoogleSheetClient().remove_row_from_sheet(Config.sheet_key, Config.main_sheet_id, user)
-            bot.reply_to(message, f'You removed reserve from places: *{df.booking_place[df.user_name == user].values.tolist()}*', parse_mode="Markdown")
+            bot.reply_to(message, f'You removed reserve from parking lot: *{df.parking_lots[df.user_name == user].values.tolist()}*', parse_mode="Markdown")
         else:
-            bot.reply_to(message, 'You can\'t reserve if you didn\'t create it')
+            bot.reply_to(message, 'You can\'t remove if you didn\'t create it')
     except Exception as e:
-        bot.reply_to(message, 'You have not reserved place')
+        bot.reply_to(message, 'You have not reserved parking lots')
 
-#list reserve spaces
-@bot.message_handler(commands='list_reserved_spaces')
-def list_reserved_spaces(message):
-    resp = get_busy_places()
+
+#list reserve parking_lots
+@bot.message_handler(commands=Config.commands[1])
+def list_reserved_parking_lots(message):
+    resp = get_busy_parking_lots()
     bot.reply_to(message, resp, parse_mode="Markdown")
     
 
 #reserve
-@bot.message_handler(commands='reserve')
+@bot.message_handler(commands=Config.commands[0])
 def reserve(message):
-
     try:
-        busy_list= get_free_places()
+        busy_list= get_free_parking_lots()
         if busy_list:
             print(busy_list)
             chat_id = message.chat.id
             name = f'@{message.chat.username}'
             user = User(name)
             user_dict[chat_id] = user
-            msg = bot.reply_to(message, 'Pls input Vehicle registration number!')
-            bot.register_next_step_handler(msg, process_car_number_step)
+            msg = bot.reply_to(message, 'Please enter your surname!')
+            bot.register_next_step_handler(msg, process_surnames_step)
         else:
-            bot.reply_to(message, "All places already busy")
+            bot.reply_to(message, "All parking lots are already occupied")
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
 
-def process_car_number_step(message):
+def process_surnames_step(message):
     try:
         chat_id = message.chat.id
-        car_number = message.text
+        surname = message.text
         user = user_dict[chat_id]
-        user.car_num = car_number
-        msg = bot.reply_to(message, f'Please enter any free space from list {get_free_places()}')
-        bot.register_next_step_handler(msg, enter_parking_place_step)
+        if surname in cmd or surname.strip()[0]=='/':
+            raise Exception
+        user.surname = surname
+        msg = bot.reply_to(message, f'Please select any available  parking lots from the list:  {get_free_parking_lots()}')
+        bot.register_next_step_handler(msg, enter_parking_lots_step)
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
 
-def enter_parking_place_step(message):
+def enter_parking_lots_step(message):
     try:
         chat_id = message.chat.id
         parking_number = message.text
         user = user_dict[chat_id]
-        busy_list= get_busy_places_list()
+        busy_list= get_busy_parking_lots_list()
         if parking_number in busy_list:
-            print(busy_list)
-            msg = bot.reply_to(message, 'This parking space is already taken')
-            bot.register_next_step_handler(msg, enter_parking_place_step)
+            msg = bot.reply_to(message, 'This parking lot is already taken')
+            bot.register_next_step_handler(msg, enter_parking_lots_step)
             return
-        if parking_number not in get_list_with_all_places():
-            msg = bot.reply_to(message, 'This parking space are not exist')
-            bot.register_next_step_handler(msg, enter_parking_place_step)
+        elif parking_number in cmd or parking_number.strip()[0]=='/':
+            raise Exception
+        elif parking_number not in get_list_with_all_parking_lots():
+            msg = bot.reply_to(message, 'This parking lot does not exist')
+            bot.register_next_step_handler(msg, enter_parking_lots_step)
             return
+        time_now = (datetime.utcnow() + timedelta(hours=2)).strftime("%D %H:%M:%S") 
         user.parking_number = parking_number
-        print(user.name,'--',user.car_num,'--',user.parking_number)
-        GoogleSheetClient().append_row_to_sheet(Config.sheet_key,Config.main_sheet_id,user.name, user.car_num,user.parking_number)
-        bot.reply_to(message, f'Added new booking for place: {user.parking_number}\n by USER: {user.name},\n with  Vehicle registration number: {user.car_num}')
+        GoogleSheetClient().append_row_to_sheet(Config.sheet_key,Config.main_sheet_id,user.name, user.surname,user.parking_number, time_now)
+        bot.reply_to(message, f'Added new booking for parking lot: {user.parking_number}\nby USER: {user.name},\nwith  SURNAME: {user.surname} \nIN: {time_now}')
     except Exception as e:
         bot.reply_to(message, 'oooops')
+        
+
 
 
 

@@ -1,7 +1,6 @@
 FROM python:3.9
 LABEL maintainer="lyabomyr@gmail.com"
 RUN pip install --upgrade pip
-
 WORKDIR /telegram_bot
 COPY requirements.txt /telegram_bot/requirements.txt
 ENV PYTHONPATH="$PWD/telegram_bot"
