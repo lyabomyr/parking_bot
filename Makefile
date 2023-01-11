@@ -14,7 +14,6 @@ kubeapply:
 	kubectl apply -f parking_bot.yaml 
 kubestop:
 	kubectl delete -f cron.yaml
-	kubectl delete -f  parking_bot.yaml 
 
 local_run:
 	python3 -m venv en

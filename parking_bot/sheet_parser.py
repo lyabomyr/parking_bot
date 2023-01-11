@@ -31,9 +31,8 @@ def get_busy_parking_lots():
     for index, row in resp.iterrows():
         message+= '<b>USER:</b> {}; <b>SURNAME:</b> {}; <b>RESERVE:</b> {};  <b>RESERVATION TIME:</b> {}|\n'.format(row['user_name'], row['surname'], row['parking_lots'], row["reservation_time"])
         print(message)
-
     if free_parking_lots:
-        message+=f'\nFree parking lots: {free_parking_lots}'
+        message+=f'\nFree parking lots: {free_parking_lots} \n\nPlease click on the following link to book: https://t.me/parking_suntech_astarta_bot'
     else:
         message+='There are no free parking lots<'
     return message

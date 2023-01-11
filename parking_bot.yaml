@@ -19,3 +19,48 @@ spec:
           image: lyabomyr/parking-tele-bot:latest
           command: ["python3"]
           args: ["parking_bot/parking_tele_bot.py"]
+
+
+---
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: status-parking-deployment
+  labels:
+    app : status-parking-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: status-parking-app
+  template:
+    metadata:
+      labels:
+        project: status-parking-app
+    spec:
+      containers:
+        - name : api-container
+          image: lyabomyr/parking-tele-bot:latest
+          command: ["python3"]
+          args: ["parking_bot/status_parking_bot.py"]
+
+          
+  
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-parking
+spec:
+  schedule: "00 05 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-parking
+            image: lyabomyr/parking-tele-bot:latest
+            command: ["python3"]
+            args: ["cron.py"]
+            imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
