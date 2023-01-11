@@ -26,17 +26,10 @@ bot.set_my_commands(
     commands=[
         telebot.types.BotCommand(Config.commands[0], "Book a parking lot"),
         telebot.types.BotCommand(Config.commands[1], "List of reserved parking lots"),
-        telebot.types.BotCommand(Config.commands[2], "Delete reserved parking lot")
+        telebot.types.BotCommand(Config.commands[2], "Delete reserved parking lot"),
     ],
 )
 cmd = bot.get_my_commands(scope=None, language_code=None)
-
-@bot.chat_join_request_handler()
-def make_some(message: telebot.types.ChatJoinRequest):
-    bot.send_message(message.chat.id, 'I accepted a new user!')
-    bot.approve_chat_join_request(message.chat.id, message.from_user.id)
-
-
 
 #remove_reserve
 @bot.message_handler(commands= Config.commands[2])
@@ -56,9 +49,12 @@ def remove_reserve(message):
 #list reserve parking_lots
 @bot.message_handler(commands=Config.commands[1])
 def list_reserved_parking_lots(message):
-    resp = get_busy_parking_lots()
-    bot.reply_to(message, resp, parse_mode="Markdown")
-    
+    try: 
+        resp = get_busy_parking_lots()
+        bot.reply_to(message, resp, parse_mode="HTML")
+    except Exception as e:
+        bot.reply_to(message, 'oooops')
+
 
 #reserve
 @bot.message_handler(commands=Config.commands[0])
@@ -84,8 +80,7 @@ def process_surnames_step(message):
         chat_id = message.chat.id
         surname = message.text
         user = user_dict[chat_id]
-        if surname in cmd or surname.strip()[0]=='/':
-            raise Exception
+        protect_flow(surname)
         user.surname = surname
         msg = bot.reply_to(message, f'Please select any available  parking lots from the list:  {get_free_parking_lots()}')
         bot.register_next_step_handler(msg, enter_parking_lots_step)
@@ -115,7 +110,13 @@ def enter_parking_lots_step(message):
         bot.reply_to(message, f'Added new booking for parking lot: {user.parking_number}\nby USER: {user.name},\nwith  SURNAME: {user.surname} \nIN: {time_now}')
     except Exception as e:
         bot.reply_to(message, 'oooops')
-        
+
+def protect_flow(message):
+    if message.strip()[0]=='/':
+            raise Exception
+
+
+
 
 
 

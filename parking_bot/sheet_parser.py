@@ -25,21 +25,17 @@ def get_busy_parking_lots_list():
     return resp
 
 def get_busy_parking_lots():
-    print("***"*20)
     free_parking_lots =  get_free_parking_lots()
     resp = GoogleSheetClient().get_sheet(Config.sheet_key,Config.main_sheet_id)
-    print("***"*20)
     message=''
     for index, row in resp.iterrows():
-        print("***"*20)
-
-        message+= '*USER:* {}; *SURNAME:* {}; *RESERVE:* {};  *RESERVATION TIME:* {}|\n'.format(row['user_name'], row['surname'], row['parking_lots'], row["reservation_time"])
+        message+= '<b>USER:</b> {}; <b>SURNAME:</b> {}; <b>RESERVE:</b> {};  <b>RESERVATION TIME:</b> {}|\n'.format(row['user_name'], row['surname'], row['parking_lots'], row["reservation_time"])
         print(message)
 
     if free_parking_lots:
         message+=f'\nFree parking lots: {free_parking_lots}'
     else:
-        message+='There are no free parking lots'
+        message+='There are no free parking lots<'
     return message
 
 
