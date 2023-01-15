@@ -2,21 +2,20 @@ import telebot
 from config import Config
 from sheet_parser import get_busy_parking_lots
 from func_handler_bot import FuncHandBot
+from parking_bot.init_bots import BotInits
+import logging
 
-bot =  telebot.TeleBot(Config.STATUS_BOT_TOKEN)
 
-bot.set_my_commands(
-    commands=[telebot.types.BotCommand(Config.commands[1], "List of reserved parking lots")])
+status_bot =  BotInits().status_telebot()
 
-@bot.message_handler(commands=Config.commands[1])
+@status_bot.message_handler(commands=[Config.commands[1]])
 def list_reserved_parking_lots(message):
     FuncHandBot().track_request(message,Config.commands[0])
     try: 
         resp = get_busy_parking_lots()
-        bot.reply_to(message, resp, parse_mode="HTML")
+        status_bot.reply_to(message, resp, parse_mode="HTML")
     except Exception as e:
-        bot.reply_to(message, 'oooops')
+        logging.warning(e)
+        FuncHandBot().oops_mes(status_bot, message)
 
-bot.infinity_polling()
-
-
+status_bot.infinity_polling()

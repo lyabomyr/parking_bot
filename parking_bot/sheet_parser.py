@@ -34,7 +34,7 @@ def get_busy_parking_lots():
     if free_parking_lots:
         message+=f'\nFree parking lots: {free_parking_lots} \n\nPlease click on the following link to book: https://t.me/parking_suntech_astarta_bot'
     else:
-        message+='There are no free parking lots<'
+        message+='There are no free parking lots'
     return message
 
 

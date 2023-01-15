@@ -6,9 +6,9 @@ class Config:
     main_sheet_id = 0
     avail_parking_lots_sheet_id =1
     commands = ["reserve","list_reserved_parking_lots","remove_reserve"]
-    list_park_places = ['1-27', '1-28', '1-29', '1-30', '1-34']
-    PARKING_BOT_TOKEN = os.environ.get('PARKING_BOT_TOKEN')
-    STATUS_BOT_TOKEN = os.environ.get('STATUS_BOT_TOKEN')
-
+    PARKING_BOT_TOKEN = os.environ.get('PARKING_BOT_TOKEN') #'5944821419:AAESYXzxMM942idnIrITlZvkoEBNzQMAKmQ'
+    STATUS_BOT_TOKEN =  os.environ.get('STATUS_BOT_TOKEN')  #'5934102533:AAFnDv8G8Of-gyB9YKSPYwGK_-3hb57whwM'
+    #chat_id='-565980061' test
+    chat_id ='-881152015' #production
 
 

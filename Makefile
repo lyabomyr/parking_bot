@@ -1,9 +1,9 @@
 
 build:
-	docker build -f Dockerfile -t parking-tele-bot:latest .
+	docker build -f Dockerfile -t parking-tele-bot:version1 .
 
 build_push: build
-	docker tag parking-tele-bot:latest lyabomyr/parking-tele-bot:latest; docker push lyabomyr/parking-tele-bot:latest
+	docker tag parking-tele-bot:version1 lyabomyr/parking-tele-bot:version1; docker push lyabomyr/parking-tele-bot:version1
 run:
 	docker run --rm -it --entrypoint bash lyabomyr/parking-tele-bot:latest
 createcluster:

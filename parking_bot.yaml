@@ -43,8 +43,9 @@ spec:
           image: lyabomyr/parking-tele-bot:latest
           command: ["python3"]
           args: ["parking_bot/status_parking_bot.py"]
+      
 
-          
+
   
 ---
 apiVersion: batch/v1
