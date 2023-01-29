@@ -5,7 +5,8 @@ on:
       - 'master'
 env:
   IMAGE_SIMLESERVER: parking-tele-bot
-
+ 
+      
 jobs:
   build_and_push-project_test:
     runs-on: ubuntu-latest
@@ -22,11 +23,30 @@ jobs:
 
       - name: set up docker build
         uses: docker/setup-buildx-action@v2
+        
+      - name: Version  
+        id: version  
+        uses: juliansangillo/tag-version@v1  
+        with:  
+            production-branch: master  
+            test-branch: test  
+            dev-branch: develop  
 
+      - name: set up docker build
+        uses: docker/setup-buildx-action@v2            
+    
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           file:  Dockerfile
           push: true
-          tags: ${{secrets.LOGIN_DOCKER_HUB}}/${{env.IMAGE_SIMLESERVER}}:latest
+          tags: ${{secrets.LOGIN_DOCKER_HUB}}/${{env.IMAGE_SIMLESERVER}}:{{Version}}
+          
+          
+          
+          
+          
+          
+          
+          
