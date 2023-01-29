@@ -2,3 +2,5 @@ pyTelegramBotAPI==4.9.0
 telebot==0.0.4
 gspread-dataframe==3.3.0
 gspread==5.7.2
+mysql-connector-python==8.0.31
+regex==2022.10.31

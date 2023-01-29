@@ -12,7 +12,8 @@ class BotInits:
         park_bot.delete_my_commands(scope=None, language_code=None)
         park_bot.set_my_commands(commands=[
         telebot.types.BotCommand(Config.commands[0], "Book a parking lot"),
-        telebot.types.BotCommand(Config.commands[2], "Delete reserved parking lot")])
+        telebot.types.BotCommand(Config.commands[2], "Delete reserved parking lot"),
+        telebot.types.BotCommand(Config.commands[1], "Status parking lots")])
         park_bot.get_my_commands(scope=None, language_code=None)
         return park_bot
 

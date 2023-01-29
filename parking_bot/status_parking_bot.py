@@ -1,10 +1,11 @@
+import time
+time.sleep(10)
 import telebot
 from config import Config
 from sheet_parser import get_busy_parking_lots
 from func_handler_bot import FuncHandBot
 from parking_bot.init_bots import BotInits
 import logging
-
 
 status_bot =  BotInits().status_telebot()
 
@@ -17,5 +18,3 @@ def list_reserved_parking_lots(message):
     except Exception as e:
         logging.warning(e)
         FuncHandBot().oops_mes(status_bot, message)
-
-status_bot.infinity_polling()

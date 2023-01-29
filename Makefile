@@ -1,11 +1,12 @@
 
 build:
-	docker build -f Dockerfile -t parking-tele-bot:version1 .
+	docker build -f Dockerfile -t parking-tele-bot:version1.7 .
 
 build_push: build
-	docker tag parking-tele-bot:version1 lyabomyr/parking-tele-bot:version1; docker push lyabomyr/parking-tele-bot:version1
+	docker tag parking-tele-bot:version1.7 lyabomyr/parking-tele-bot:version1.7; docker push lyabomyr/parking-tele-bot:version1.7
 run:
-	docker run --rm -it --entrypoint bash lyabomyr/parking-tele-bot:latest
+	docker run --rm -it --entrypoint bash lyabomyr/parking-tele-bot:version1.6
+
 createcluster:
 	kind create cluster
 	kubectl create namespace parkingbot
