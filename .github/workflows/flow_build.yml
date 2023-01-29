@@ -23,13 +23,18 @@ jobs:
       - name: set up docker build
         uses: docker/setup-buildx-action@v2
         
-#       - name: Version  
-#         id: version  
-#         uses: juliansangillo/tag-version@v1  
-#         with:  
-#             production-branch: master  
-#             test-branch: test  
-#             dev-branch: develop  
+      - name: Checkout  
+        uses: actions/checkout@v2  
+        with:  
+            fetch-depth: 0  
+
+      - name: Version  
+        id: version  
+        uses: juliansangillo/tag-version@v1  
+        with:  
+            production-branch: master  
+            test-branch: test  
+            dev-branch: develop   
       - name: test
         run: echo  ${{ github.event.release.tag_name }}
 
