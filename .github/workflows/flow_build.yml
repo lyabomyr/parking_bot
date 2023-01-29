@@ -6,7 +6,6 @@ on:
 env:
   IMAGE_SIMLESERVER: parking-tele-bot
  
-      
 jobs:
   build_and_push-project_test:
     runs-on: ubuntu-latest
