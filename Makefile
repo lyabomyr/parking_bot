@@ -25,5 +25,5 @@ local_run:
 	pip uninstall telebot
 	pip uninstall pyTelegramBotApi
 	pip install pyTelegramBotApi
-	python3 parking_bot/parking_tele_bot.py 
+	python3 parking_bot/parking_tele_bot.py
 
