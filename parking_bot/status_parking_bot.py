@@ -13,7 +13,6 @@ status_bot = BotInits().status_telebot()
 
 @status_bot.message_handler(commands=[Config.commands[1]])
 def list_reserved_parking_lots(message):
-    print(message)
     FuncHandBot().track_request(message, Config.commands[0])
     try:
         resp = get_busy_parking_lots()
